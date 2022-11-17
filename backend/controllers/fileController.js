@@ -25,7 +25,7 @@ class FileController {
             return res.status(400).json(e)
         }
     }
-    async fetchFiles(req, res){
+    async getFiles(req, res){
         try{
             const files = await File.find({user: req.user.id, parent: req.query.parent}) // user id получен из токена
             return res.json(files)
