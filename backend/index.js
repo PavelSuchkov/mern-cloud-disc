@@ -4,10 +4,12 @@ import config from "config"
 import authRouter from "./routes/authRoutes.js";
 import corsMiddleware from "./middleware/cors.middleware.js";
 import fileRouter from "./routes/fileRoutes.js";
+import fileUpload from 'express-fileupload'
 
 const PORT = config.get("serverPort")
 const app = express()
 
+app.use(fileUpload({}))
 app.use(corsMiddleware)
 app.use(express.json())
 app.use("/api/auth", authRouter)
