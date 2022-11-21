@@ -11,13 +11,14 @@ export const File = ({file}) => {
 
     const currentDir = useSelector(state => state.files.currentDir)
 
-    const openDirHandler = () => {
+    const openDirHandler = (file) => {
+        if(file.type === 'dir')
         dispatch(pushToStack(currentDir))
         dispatch(setCurrentDir(file._id))
     }
 
     return (
-        <div className='file' onClick={file.type === 'dir' ? () => openDirHandler() : ''}>
+        <div className='file' onClick={ () => openDirHandler(file)}>
             <img src={file.type === 'dir' ? dirLogo : fileLogo} alt="" className="file__img"/>
             <div className="file__name">{file.name}</div>
             <div className="file__date">{file.date.slice(0, 10)}</div>
