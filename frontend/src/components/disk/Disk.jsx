@@ -5,6 +5,7 @@ import {FileList} from "./fileList/FileList";
 import './disk.scss'
 import Popup from "./Popup";
 import {setCurrentDir, setPopupDisplay} from "../../reducers/fileReducer";
+import {Uploader} from "./uploader/Uploader";
 
 export const Disk = () => {
 
@@ -69,6 +70,7 @@ export const Disk = () => {
                 </div>
                 <FileList/>
                 <Popup/>
+                <Uploader/>
             </div>
             :
             <div className='drop-area'
