@@ -1,5 +1,6 @@
 import axios from "axios";
 import {addFile, deleteFileAction, setFiles} from "../reducers/fileReducer";
+import {addUploadFile, changeUploadFile, showUploader} from "../reducers/uploadReducer";
 
 export const getFiles = (dirId) => {
     return async dispatch => {
@@ -41,17 +42,21 @@ export const uploadFile = (file, dirId) => {
             if (dirId) {
                 formData.append('parent', dirId)
             }
+            const uploadFile = {name: file.name, progress: 0, id: Date.now()}
+            dispatch(showUploader())
+            dispatch(addUploadFile(uploadFile))
             const response = await axios.post(`http://localhost:5010/api/files/upload`, formData, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
                 onUploadProgress: progressEvent => {
                     if (true) {
-                        let progress = Math.round((progressEvent.loaded / progressEvent.total) * 100)
-                        // console.log('progress ', progress)
+                        uploadFile.progress = Math.round((progressEvent.loaded / progressEvent.total) * 100)
+                        dispatch(changeUploadFile(uploadFile))
+                        console.log('progress ', uploadFile.progress)
                     }
                 }
             })
             dispatch(addFile(response.data))
-            console.log(response.data)
+            // console.log(response.data)
         } catch (e) {
             alert(e.response.data.message)
         }
