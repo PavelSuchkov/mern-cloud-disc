@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {createDir, getFiles, uploadFile} from "../../actions/file";
+import {getFiles, uploadFile} from "../../actions/file";
 import {FileList} from "./fileList/FileList";
 import './disk.scss'
 import Popup from "./Popup";
@@ -15,6 +15,8 @@ export const Disk = () => {
     const dirStack = useSelector(state => state.files.dirStack)
 
     const [dragEnter, setDragEnter] = useState(false)
+
+    const [sort, setSort] = useState('type')
 
     const showPopupHandler = () => {
         dispatch(setPopupDisplay('flex'))
@@ -50,8 +52,8 @@ export const Disk = () => {
     }
 
     useEffect(() => {
-        dispatch(getFiles(currentDir))
-    }, [currentDir])
+        dispatch(getFiles(currentDir, sort))
+    }, [currentDir, sort])
 
     return (!dragEnter ?
             <div className='disk'
@@ -66,6 +68,15 @@ export const Disk = () => {
                         <label htmlFor="disk__upload-input" className="disk__upload-label">Upload file</label>
                         <input multiple={true} onChange={(event) => fileUploadHandler(event)} type="file"
                                id="disk__upload-input" className="disk__upload-input"/>
+                    </div>
+                    <div className="disk__select-block">
+                        <label htmlFor="sortBy">Sort by</label>
+                        <select id='sortBy' className="disk__select"
+                                value={sort} onChange={(e) => setSort(e.target.value)}>
+                            <option value="name">Name</option>
+                            <option value="type">Type</option>
+                            <option value="date">Date</option>
+                        </select>
                     </div>
                 </div>
                 <FileList/>

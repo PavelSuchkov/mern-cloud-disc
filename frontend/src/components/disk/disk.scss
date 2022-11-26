@@ -26,6 +26,18 @@
     cursor: pointer;
     margin-left: 10px;
   }
+
+  &__select-block{
+    //margin: 0 30px;
+    margin-left: 50px;
+    display: flex;
+    align-self: flex-end;
+    //flex-direction: column;
+
+    select{
+      margin: 0 10px;
+    }
+  }
 }
 
 .drop-area{
@@ -62,7 +74,7 @@
   }
 
   &__create{
-    align-self: flex-end;
+    //align-self: flex-end;
   }
 
   &__header{
