@@ -8,6 +8,12 @@ export const FileList = () => {
 
     const files = useSelector(state => state.files.files)
 
+    if(files.length === 0){
+        return (
+            <div className='loader'>Files not found</div>
+        )
+    }
+
     return (
         <div className='fileList'>
             <div className="fileList__header">

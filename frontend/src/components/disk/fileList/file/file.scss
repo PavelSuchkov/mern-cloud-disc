@@ -45,11 +45,15 @@
     grid-column-start: 5;
     display: block;
     cursor: pointer;
+    align-self: center;
+    justify-self: center;
   }
   &:hover &__delete{
     grid-column-start: 6;
     display: block;
     cursor: pointer;
     margin: 0 10px;
+    align-self: center;
+    justify-self: center;
   }
 }

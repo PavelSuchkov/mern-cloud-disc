@@ -1,10 +1,12 @@
 import axios from "axios";
 import {addFile, deleteFileAction, setFiles} from "../reducers/fileReducer";
 import {addUploadFile, changeUploadFile, showUploader} from "../reducers/uploadReducer";
+import {hideLoader, showLoader} from "../reducers/appReducer";
 
 export const getFiles = (dirId, sort) => {
     return async dispatch => {
         try {
+            dispatch(showLoader())
             let url = `http://localhost:5010/api/files`
             if (dirId) {
                 url = `http://localhost:5010/api/files?parent=${dirId}`
@@ -22,6 +24,9 @@ export const getFiles = (dirId, sort) => {
             // console.log(response.data)
         } catch (e) {
             alert(e.response.data.message)
+        }
+        finally {
+            dispatch(hideLoader())
         }
     }
 }
@@ -97,11 +102,28 @@ export const deleteFile = (file) => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            // console.log('response.data ',response.data)
             dispatch(deleteFileAction(file._id))
             alert(response.data.message)
         } catch (e) {
             alert(e.response.data.message)
+        }
+    }
+}
+export const searchFiles = (search) => {
+    return async dispatch => {
+        try {
+            const response = await axios.get(`http://localhost:5010/api/files/search?search=${search}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            dispatch(setFiles(response.data))
+            // alert(response.data.message)
+        } catch (e) {
+            alert(e.response.data.message)
+        }
+        finally {
+            dispatch(hideLoader())
         }
     }
 }

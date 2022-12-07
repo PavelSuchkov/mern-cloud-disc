@@ -13,6 +13,7 @@ export const Disk = () => {
 
     const currentDir = useSelector(state => state.files.currentDir)
     const dirStack = useSelector(state => state.files.dirStack)
+    const loader = useSelector(state => state.app.loader)
 
     const [dragEnter, setDragEnter] = useState(false)
 
@@ -55,6 +56,15 @@ export const Disk = () => {
         dispatch(getFiles(currentDir, sort))
     }, [currentDir, sort])
 
+
+    if(loader === true){
+        return (
+            <div className='loader'>
+                <div className="lds-dual-ring"/>
+            </div>
+        )
+    }
+
     return (!dragEnter ?
             <div className='disk'
                  onDragEnter={(event) => DragEnterHandler(event)}
@@ -72,7 +82,8 @@ export const Disk = () => {
                     <div className="disk__select-block">
                         <label htmlFor="sortBy">Sort by</label>
                         <select id='sortBy' className="disk__select"
-                                value={sort} onChange={(e) => setSort(e.target.value)}>
+                                value={sort}
+                                onChange={(e) => setSort(e.target.value)}>
                             <option value="name">Name</option>
                             <option value="type">Type</option>
                             <option value="date">Date</option>
