@@ -4,7 +4,7 @@ import {getFiles, uploadFile} from "../../actions/file";
 import {FileList} from "./fileList/FileList";
 import './disk.scss'
 import Popup from "./Popup";
-import {setCurrentDir, setPopupDisplay} from "../../reducers/fileReducer";
+import {setCurrentDir, setFileView, setPopupDisplay} from "../../reducers/fileReducer";
 import {Uploader} from "./uploader/Uploader";
 
 export const Disk = () => {
@@ -13,6 +13,7 @@ export const Disk = () => {
 
     const currentDir = useSelector(state => state.files.currentDir)
     const dirStack = useSelector(state => state.files.dirStack)
+    const loader = useSelector(state => state.app.loader)
 
     const [dragEnter, setDragEnter] = useState(false)
 
@@ -55,6 +56,15 @@ export const Disk = () => {
         dispatch(getFiles(currentDir, sort))
     }, [currentDir, sort])
 
+
+    if(loader === true){
+        return (
+            <div className='loader'>
+                <div className="lds-dual-ring"/>
+            </div>
+        )
+    }
+
     return (!dragEnter ?
             <div className='disk'
                  onDragEnter={(event) => DragEnterHandler(event)}
@@ -72,12 +82,15 @@ export const Disk = () => {
                     <div className="disk__select-block">
                         <label htmlFor="sortBy">Sort by</label>
                         <select id='sortBy' className="disk__select"
-                                value={sort} onChange={(e) => setSort(e.target.value)}>
+                                value={sort}
+                                onChange={(e) => setSort(e.target.value)}>
                             <option value="name">Name</option>
                             <option value="type">Type</option>
                             <option value="date">Date</option>
                         </select>
                     </div>
+                    <button className="disk__plate" onClick={()=> dispatch(setFileView('plate'))}/>
+                    <button className="disk__list" onClick={()=> dispatch(setFileView('list'))}/>
                 </div>
                 <FileList/>
                 <Popup/>
