@@ -23,6 +23,13 @@
   }
 }
 
+.filePlate{
+  display: flex;
+  //justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
 .file-enter-active{
   animation: file-enter 500ms forwards;
 }
