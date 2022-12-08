@@ -2,5 +2,6 @@
   "serverPort": 5010,
   "dbUrl": "mongodb+srv://cloud-disc:ezEa6kIoCp2zkeiK@cloud-disc.zvicqmi.mongodb.net/?retryWrites=true&w=majority",
   "secretKey": "mern-secret-key",
-  "filePath": "/Users/pavelsuchkou/develop/study/mern-cloud-disc/backend/fies"
+  "filePath": "/Users/pavelsuchkou/develop/study/mern-cloud-disc/backend/fies",
+  "staticPath": "/Users/pavelsuchkou/develop/study/mern-cloud-disc/backend/static"
 }

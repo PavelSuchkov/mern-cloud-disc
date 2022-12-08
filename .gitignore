@@ -3,3 +3,4 @@
 # Project exclude paths
 /backend/node_modules/
 /backend/.idea/
+/backend/static/

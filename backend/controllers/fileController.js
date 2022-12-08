@@ -3,6 +3,7 @@ import File from "../models/file.js";
 import User from "../models/user.js";
 import config from "config";
 import fs from "fs";
+import {v4} from "uuid";
 
 // import path from 'path'
 
@@ -139,6 +140,37 @@ class FileController {
             return res.status(500).json({message: 'Search error'})
         }
     }
+
+    async uploadAvatar(req, res) {
+        try {
+            const file = req.files.file
+            const user = await User.findById(req.user.id)
+            const avatarName = v4() + '.jpg'
+            file.mv(config.get('staticPath') + '/' + avatarName)
+            user.avatar = avatarName
+            await user.save()
+            return res.json(user)
+
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Upload error'})
+        }
+    }
+
+    async deleteAvatar(req, res) {
+        debugger
+        try {
+            const user = await User.findById(req.user.id)
+            fs.unlinkSync(config.get('staticPath') + '/' + user.avatar)
+            user.avatar = null
+            await user.save()
+            return res.json(user)
+        } catch (e) {
+            console.log(e)
+            return res.status(500).json({message: 'Delete avatar error'})
+        }
+    }
+
 }
 
 
